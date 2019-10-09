@@ -39,7 +39,10 @@ public class PlayerController : MonoBehaviour
 
         motor.SetRotation(_rotation);
 
-        Vector3 _cameraRotation = new Vector3(Input.GetAxisRaw("Mouse Y"), 0, 0) * lookSpeed;
+        float _cameraRotationX = Input.GetAxisRaw("Mouse Y") * lookSpeed;
+
+        motor.SetCameraRotationX(_cameraRotationX);
+
         Vector3 _thrusterForce = Vector3.zero;
         if (Input.GetButton("Jump"))
         {
@@ -60,6 +63,5 @@ public class PlayerController : MonoBehaviour
             positionSpring = _jointSpring
         };
 
-        motor.SetCameraRotation(_cameraRotation);
     }
 }
