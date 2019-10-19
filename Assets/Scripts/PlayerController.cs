@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
     private float lookSpeed = 3f;
     [SerializeField]
     private float thrusterForce = 1000f;
+    [SerializeField]
+    private float maxThrusterTime = 100f;
 
     [Header("Joint")]
     [SerializeField]
@@ -19,6 +21,7 @@ public class PlayerController : MonoBehaviour
 
     private PlayerMotor motor;
     private ConfigurableJoint joint;
+    private float thrusterTime = 100f;
 
     private void Start()
     {
@@ -44,13 +47,19 @@ public class PlayerController : MonoBehaviour
         motor.SetCameraRotationX(_cameraRotationX);
 
         Vector3 _thrusterForce = Vector3.zero;
-        if (Input.GetButton("Jump"))
+        if (Input.GetButton("Jump") && thrusterTime > 0)
         {
+            thrusterTime -= 2;
             _thrusterForce = Vector3.up * thrusterForce;
             SetJointSettings(0f);
         }
         else
             SetJointSettings(jointSpring);
+
+        if (thrusterTime < maxThrusterTime)
+            thrusterTime++;
+
+        print(thrusterTime);
 
         motor.SetThrusterForce(_thrusterForce);
     }
